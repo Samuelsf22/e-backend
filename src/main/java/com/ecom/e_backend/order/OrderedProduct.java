@@ -16,17 +16,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class OrderedProduct {
-    private UUID publicId;
+    private UUID productPublicId;
     private double price;
     private int quantity;
-    private String name;
+    private String productName;
 
     public static OrderedProduct create(int quantity, Product product){
         return OrderedProduct.builder()
             .price(product.getPrice())
             .quantity(quantity)
-            .name(product.getName())
-            .publicId(product.getPublicId())
+            .productName(product.getName())
+            .productPublicId(product.getPublicId())
             .build();
     }
 }
