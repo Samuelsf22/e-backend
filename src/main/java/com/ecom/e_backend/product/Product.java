@@ -17,7 +17,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Product {
     @Id
-    private UUID id;
+    private Long id;
+    private UUID publicId;
     private String name;
     private String description;
     private String brand;
@@ -28,6 +29,6 @@ public class Product {
     private Category category;
 
     public void initDefaultFields() {
-        this.id = UUID.randomUUID();
+        this.publicId = UUID.randomUUID();
     }
 }

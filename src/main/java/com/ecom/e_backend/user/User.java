@@ -1,6 +1,6 @@
-package com.ecom.e_backend.product;
+package com.ecom.e_backend.user;
 
-
+import java.time.Instant;
 import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
@@ -16,11 +16,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Category {
+public class User {
     @Id
     private Long id;
     private UUID publicId;
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String address;
+    private String imageUrl;
+    private Instant createDate;
+    private Instant lastModifiedDate;
+    private Instant lastSeen;
 
     public void initDefaultFields() {
         this.publicId = UUID.randomUUID();
