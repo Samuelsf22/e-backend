@@ -19,16 +19,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Order {
+public class OrderEntity {
     @Id
     private Long id;
     private UUID publicId;
     private User user;
     private OrderStatus status;
-    private List<OrderedProduct> orderedProducts;
+    private List<OrderedProductEntity> orderedProducts;
 
-    public static Order create(User connectedUser, List<OrderedProduct> orderedProducts) {
-        return Order.builder()
+    public static OrderEntity create(User connectedUser, List<OrderedProductEntity> orderedProducts) {
+        return OrderEntity.builder()
                 .user(connectedUser)
                 .status(OrderStatus.PENDING)
                 .orderedProducts(orderedProducts)

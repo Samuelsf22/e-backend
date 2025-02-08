@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OrderedProduct {
+public class OrderedProductEntity {
     private UUID productPublicId;
     private double price;
     private int quantity;
     private String productName;
 
-    public static OrderedProduct create(int quantity, Product product){
-        return OrderedProduct.builder()
+    public static OrderedProductEntity create(int quantity, Product product){
+        return OrderedProductEntity.builder()
             .price(product.getPrice())
             .quantity(quantity)
             .productName(product.getName())
