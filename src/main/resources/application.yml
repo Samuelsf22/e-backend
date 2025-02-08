@@ -12,3 +12,6 @@ spring:
         user:
             name: admin
             password: admin123
+jwt:
+    secret: secret
+    expiration: 3600
