@@ -1,5 +1,8 @@
 package com.ecom.e_backend.security.service.impl;
 
+import java.time.Instant;
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -37,11 +40,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Mono<User> create(CreateUserDto createUserDto) {
+        log.debug("Creating user with username: {}", createUserDto);
         return userRepository.findByUsernameOrEmail(createUserDto.username(), createUserDto.email())
                 .switchIfEmpty(Mono.defer(() -> {
                     User user = User.builder()
-                            .firstName(createUserDto.firstName())
-                            .lastName(createUserDto.lastName())
+                            .publicId(UUID.randomUUID())
+                            .firstName(createUserDto.first_name())
+                            .lastName(createUserDto.last_name())
                             .email(createUserDto.email())
                             .username(createUserDto.username())
                             .password(passwordEncoder.encode(createUserDto.password()))

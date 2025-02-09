@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 import javax.management.relation.Role;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,6 +27,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "table_user")
 public class User implements UserDetails {
     @Id
     private Long id;
@@ -42,10 +44,6 @@ public class User implements UserDetails {
     private Instant lastModifiedDate;
     private Instant lastSeen;
     private String roles;
-
-    public void initDefaultFields() {
-        this.publicId = UUID.randomUUID();
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
