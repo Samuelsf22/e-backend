@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.springframework.data.annotation.Id;
 
 import com.ecom.e_backend.order.v0.OrderStatus;
-import com.ecom.e_backend.security.entity.user.User;
+import com.ecom.e_backend.security.entity.User;
 
 import lombok.Getter;
 import lombok.Setter;

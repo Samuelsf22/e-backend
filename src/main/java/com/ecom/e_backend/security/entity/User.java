@@ -1,4 +1,4 @@
-package com.ecom.e_backend.security.entity.user;
+package com.ecom.e_backend.security.entity;
 
 import java.time.Instant;
 import java.util.Collection;
