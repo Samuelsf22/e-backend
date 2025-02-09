@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
                             .password(passwordEncoder.encode(createUserDto.password()))
                             .address(createUserDto.address())
                             .imageUrl(createUserDto.imageUrl())
-                            .role(Role.ROLE_USER.name())
+                            .roles(Role.ROLE_USER.name())
                             .build();
                     return userRepository.save(user);
                 }));

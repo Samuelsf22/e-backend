@@ -13,6 +13,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
@@ -32,13 +34,14 @@ public class User implements UserDetails {
     private String lastName;
     private String email;
     private String username;
+    @JsonIgnore
     private String password;
     private String address;
     private String imageUrl;
     private Instant createDate;
     private Instant lastModifiedDate;
     private Instant lastSeen;
-    private String role;
+    private String roles;
 
     public void initDefaultFields() {
         this.publicId = UUID.randomUUID();
@@ -46,7 +49,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Stream.of(role.split(", "))
+        return Stream.of(roles.split(", "))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

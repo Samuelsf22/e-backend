@@ -11,7 +11,7 @@ CREATE TABLE "user" (
     create_date TIMESTAMP NOT NULL,
     last_modified_date TIMESTAMP NOT NULL,
     last_seen TIMESTAMP NOT NULL,
-    role VARCHAR(20) NOT NULL,
+    roles VARCHAR(20) NOT NULL,
     CONSTRAINT unique_email UNIQUE (email),
     CONSTRAINT unique_username UNIQUE (username)
 );
