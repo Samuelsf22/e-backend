@@ -1,4 +1,4 @@
-CREATE TABLE table_user (
+CREATE TABLE api_user (
     id BIGSERIAL PRIMARY KEY,
     public_id UUID NOT NULL,
     first_name VARCHAR(100) NOT NULL,

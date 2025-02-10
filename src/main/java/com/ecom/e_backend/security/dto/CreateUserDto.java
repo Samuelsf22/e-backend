@@ -1,3 +1,19 @@
 package com.ecom.e_backend.security.dto;
 
-public record CreateUserDto(String first_name, String last_name ,String email, String username, String password, String address, String imageUrl) {}
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record CreateUserDto(
+        @JsonProperty("first_name")
+        String firstName,
+
+        @JsonProperty("last_name")
+        String lastName,
+
+        String email,
+        String username,
+        String password,
+        String address,
+        
+        @JsonProperty("image_url")
+        String imageUrl
+) {}

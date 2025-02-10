@@ -1,6 +1,5 @@
 package com.ecom.e_backend.security.service.impl;
 
-import java.time.Instant;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -45,8 +44,8 @@ public class UserServiceImpl implements UserService {
                 .switchIfEmpty(Mono.defer(() -> {
                     User user = User.builder()
                             .publicId(UUID.randomUUID())
-                            .firstName(createUserDto.first_name())
-                            .lastName(createUserDto.last_name())
+                            .firstName(createUserDto.firstName())
+                            .lastName(createUserDto.lastName())
                             .email(createUserDto.email())
                             .username(createUserDto.username())
                             .password(passwordEncoder.encode(createUserDto.password()))

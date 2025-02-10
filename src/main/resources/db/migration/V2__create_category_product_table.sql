@@ -1,10 +1,10 @@
-CREATE TABLE category (
+CREATE TABLE api_category (
      id BIGSERIAL PRIMARY KEY,
      public_id UUID NOT NULL,
      name VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE product (
+CREATE TABLE api_product (
      id BIGSERIAL PRIMARY KEY,
      public_id UUID NOT NULL,
      name VARCHAR(255) NOT NULL,
@@ -15,5 +15,5 @@ CREATE TABLE product (
      featured BOOLEAN NOT NULL,
      stock INTEGER NOT NULL,
      category_id BIGINT NOT NULL,
-     CONSTRAINT fk_category_id FOREIGN KEY (category_id) REFERENCES category(id)
+     CONSTRAINT fk_category_id FOREIGN KEY (category_id) REFERENCES api_category(id)
 );
