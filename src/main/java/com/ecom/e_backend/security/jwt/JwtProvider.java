@@ -3,6 +3,8 @@ package com.ecom.e_backend.security.jwt;
 import java.security.Key;
 import java.util.Date;
 
+import javax.crypto.SecretKey;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -12,9 +14,8 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.Jwts.SIG;
 import io.jsonwebtoken.security.SignatureException;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -28,25 +29,25 @@ public class JwtProvider {
 
     public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
+                .subject(userDetails.getUsername())
                 .claim("roles", userDetails.getAuthorities())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + expiration * 1000))
-                .signWith(getKey(secret))
+                .issuedAt(new Date())
+                .expiration(new Date(new Date().getTime() + expiration * 1000))
+                .signWith(getSignKey(), Jwts.SIG.HS256)
                 .compact();
     }
 
     public Claims getClaims(String token) {
-        return Jwts.parserBuilder().setSigningKey(getKey(secret)).build().parseClaimsJws(token).getBody();
+        return Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token).getPayload();
     }
 
     public String getSubject(String token) {
-        return Jwts.parserBuilder().setSigningKey(getKey(secret)).build().parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token).getPayload().getSubject();
     }
 
     public boolean validate(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(getKey(secret)).build().parseClaimsJws(token).getBody();
+            Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token).getPayload();
             return true;
         } catch (ExpiredJwtException e) {
             log.error("token expired");
@@ -62,8 +63,7 @@ public class JwtProvider {
         return false;
     }
 
-    private Key getKey(String secret) {
-        byte[] secretBytes = Decoders.BASE64URL.decode(secret);
-        return Keys.hmacShaKeyFor(secretBytes);
+    private SecretKey getSignKey() {
+        return SIG.HS256.key().build();
     }
 }

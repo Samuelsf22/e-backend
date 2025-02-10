@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Mono<TokenDto> login(LoginDto loginDto) {
-        return userRepository.findByUsernameOrEmail(loginDto.username(), loginDto.username())
+        return userRepository.findByEmail(loginDto.email())
                 .filter(user -> passwordEncoder.matches(loginDto.password(), user.getPassword()))
                 .map(user -> new TokenDto(jwtProvider.generateToken(user)))
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid credentials")));
@@ -39,21 +39,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Mono<User> create(CreateUserDto createUserDto) {
-        log.debug("Creating user with username: {}", createUserDto);
-        return userRepository.findByUsernameOrEmail(createUserDto.username(), createUserDto.email())
-                .switchIfEmpty(Mono.defer(() -> {
-                    User user = User.builder()
-                            .publicId(UUID.randomUUID())
-                            .firstName(createUserDto.firstName())
-                            .lastName(createUserDto.lastName())
-                            .email(createUserDto.email())
-                            .username(createUserDto.username())
-                            .password(passwordEncoder.encode(createUserDto.password()))
-                            .address(createUserDto.address())
-                            .imageUrl(createUserDto.imageUrl())
-                            .roles(Role.ROLE_USER.name())
-                            .build();
-                    return userRepository.save(user);
-                }));
+        User user = User.builder()
+                .publicId(UUID.randomUUID())
+                .firstName(createUserDto.firstName())
+                .lastName(createUserDto.lastName())
+                .email(createUserDto.email())
+                .username(createUserDto.username())
+                .password(passwordEncoder.encode(createUserDto.password()))
+                .address(createUserDto.address())
+                .imageUrl(createUserDto.imageUrl())
+                .roles(Role.ROLE_USER.name())
+                .build();
+
+        return userRepository.findByEmail(createUserDto.email())
+                .hasElement()
+                .flatMap(exists -> exists
+                        ? Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists"))
+                        : userRepository.save(user));
     }
 }
