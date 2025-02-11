@@ -27,7 +27,12 @@ public class CategoryServiceImpl implements CategoryService {
                 .publicId(UUID.randomUUID())
                 .name(categoryDto.name())
                 .build();
-        return categoryRepository.save(category);
+
+        return categoryRepository.findByName(categoryDto.name())
+                .hasElement()
+                .flatMap(exists -> exists
+                        ? Mono.error(new CustomException(HttpStatus.BAD_REQUEST, "Category already exists with name: " + categoryDto.name()))
+                        : categoryRepository.save(category));
     }
 
     @Override

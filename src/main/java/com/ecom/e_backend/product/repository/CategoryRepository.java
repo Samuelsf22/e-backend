@@ -16,4 +16,6 @@ public interface CategoryRepository extends R2dbcRepository<Category, Long> {
 
     Mono<Void> deleteByPublicId(UUID publicId);
 
+    Mono<Category> findByName(String name);
+
 }

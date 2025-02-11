@@ -11,7 +11,7 @@ CREATE TABLE api_user (
     create_date TIMESTAMP DEFAULT now(),
     last_modified_date TIMESTAMP,
     last_seen TIMESTAMP,
-    roles VARCHAR(20) NOT NULL,
+    roles VARCHAR(50) NOT NULL,
     CONSTRAINT unique_email UNIQUE (email),
     CONSTRAINT unique_username UNIQUE (username)
 );
