@@ -1,4 +1,5 @@
-package com.ecom.e_backend.product;
+package com.ecom.e_backend.product.entity;
+
 
 import java.util.UUID;
 
@@ -15,20 +16,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Product {
+public class Category {
     @Id
     private Long id;
     private UUID publicId;
     private String name;
-    private String description;
-    private String brand;
-    private String color;
-    private double price;
-    private boolean featured;
-    private int stock;
-    private Category category;
-
-    public void initDefaultFields() {
-        this.publicId = UUID.randomUUID();
-    }
 }

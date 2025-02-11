@@ -2,7 +2,7 @@ package com.ecom.e_backend.order;
 
 import java.util.UUID;
 
-import com.ecom.e_backend.product.Product;
+import com.ecom.e_backend.product.entity.Product;
 
 import lombok.Getter;
 import lombok.Setter;

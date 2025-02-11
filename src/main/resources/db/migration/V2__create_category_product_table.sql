@@ -1,7 +1,8 @@
 CREATE TABLE api_category (
      id BIGSERIAL PRIMARY KEY,
      public_id UUID NOT NULL,
-     name VARCHAR(255) NOT NULL
+     name VARCHAR(255) NOT NULL,
+     CONSTRAINT unique_category_name UNIQUE (name)
 );
 
 CREATE TABLE api_product (
