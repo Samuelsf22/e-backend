@@ -5,7 +5,6 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.ecom.e_backend.security.dto.CreateUserDto;
 import com.ecom.e_backend.security.dto.LoginDto;
@@ -15,6 +14,7 @@ import com.ecom.e_backend.security.enums.Role;
 import com.ecom.e_backend.security.jwt.JwtProvider;
 import com.ecom.e_backend.security.repository.UserRepository;
 import com.ecom.e_backend.security.service.UserService;
+import com.ecom.e_backend.exception.CustomException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(loginDto.email())
                 .filter(user -> passwordEncoder.matches(loginDto.password(), user.getPassword()))
                 .map(user -> new TokenDto(jwtProvider.generateToken(user)))
-                .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid credentials")));
+                .switchIfEmpty(Mono.error(new CustomException(HttpStatus.BAD_REQUEST, "Invalid credentials")));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(createUserDto.email())
                 .hasElement()
                 .flatMap(exists -> exists
-                        ? Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email already exists"))
+                        ? Mono.error(new CustomException(HttpStatus.BAD_REQUEST, "Email already exists"))
                         : userRepository.save(user));
     }
 }

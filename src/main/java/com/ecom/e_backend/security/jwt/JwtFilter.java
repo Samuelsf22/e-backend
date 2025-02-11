@@ -4,11 +4,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 
+import com.ecom.e_backend.exception.CustomException;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -27,10 +27,10 @@ public class JwtFilter implements WebFilter {
         String auth = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
         if (auth == null)
-            return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "no token was found"));
+            return Mono.error(new CustomException(HttpStatus.BAD_REQUEST, "no token was found"));
 
         if (!auth.startsWith("Bearer "))
-            return Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid auth"));
+            return Mono.error(new CustomException(HttpStatus.BAD_REQUEST, "invalid auth"));
 
         String token = auth.replace("Bearer ", "");
         exchange.getAttributes().put("token", token);
