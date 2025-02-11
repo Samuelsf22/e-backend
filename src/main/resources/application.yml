@@ -10,5 +10,5 @@ spring:
         password: 123456
 
 jwt:
-    secret: secret
+    secret: secretsecretsecretsecretsecretsecretsecretse
     expiration: 3600

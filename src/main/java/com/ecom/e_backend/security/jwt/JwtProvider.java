@@ -1,6 +1,5 @@
 package com.ecom.e_backend.security.jwt;
 
-import java.security.Key;
 import java.util.Date;
 
 import javax.crypto.SecretKey;
@@ -14,7 +13,8 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.Jwts.SIG;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +33,7 @@ public class JwtProvider {
                 .claim("roles", userDetails.getAuthorities())
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + expiration * 1000))
-                .signWith(getSignKey(), Jwts.SIG.HS256)
+                .signWith(getSignKey())
                 .compact();
     }
 
@@ -64,6 +64,7 @@ public class JwtProvider {
     }
 
     private SecretKey getSignKey() {
-        return SIG.HS256.key().build();
+        byte[] key = Decoders.BASE64.decode(secret);
+        return Keys.hmacShaKeyFor(key);
     }
 }

@@ -1,5 +1,7 @@
 package com.ecom.e_backend.security.jwt;
 
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,9 +33,11 @@ public class JwtAuthenticationManager implements ReactiveAuthenticationManager {
                 .map(claims -> new UsernamePasswordAuthenticationToken(
                         claims.getSubject(),
                         null,
-                        Stream.of(claims.get("roles", String[].class))
-                                .flatMap(Stream::of)
-                                .map(SimpleGrantedAuthority::new)
+                        Stream.of(claims.get("roles"))
+                                .map(role -> (List<Map<String, String>>) role)
+                                .flatMap(role -> role.stream()
+                                        .map(r -> r.get("authority"))
+                                        .map(SimpleGrantedAuthority::new))
                                 .collect(Collectors.toList())));
     }
 

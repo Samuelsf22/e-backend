@@ -14,16 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/api/order")
 
 public class OrderController {
 
     @GetMapping("/{orderId}")
     Mono<OrderDto> getOrder(@PathVariable("orderId") Long id) {
-        return null;
+        return Mono.just(new OrderDto(id, null, "test", "status"));
     }
 
     @PostMapping("/")
@@ -40,6 +38,5 @@ public class OrderController {
     Mono<Void> deleteOrder(@PathVariable("orderId") Long id) {
         return Mono.empty();
     }
-    
 
 }
