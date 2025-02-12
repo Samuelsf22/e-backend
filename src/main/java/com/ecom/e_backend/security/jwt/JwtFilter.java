@@ -1,5 +1,7 @@
 package com.ecom.e_backend.security.jwt;
 
+import java.util.List;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -16,12 +18,15 @@ import reactor.core.publisher.Mono;
 @Component
 @Slf4j
 public class JwtFilter implements WebFilter {
+
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
         String path = request.getPath().value();
-        if (path.contains("auth"))
+        if (path.contains("auth")
+                || (path.contains("category") && request.getMethod().matches("GET"))
+                || (path.contains("product") && request.getMethod().matches("GET"))) 
             return chain.filter(exchange);
 
         String auth = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
