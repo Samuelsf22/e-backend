@@ -7,8 +7,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import jakarta.validation.constraints.NotNull;
 
+@Builder
 public record ProductDto(
 
     @JsonProperty("public_id")

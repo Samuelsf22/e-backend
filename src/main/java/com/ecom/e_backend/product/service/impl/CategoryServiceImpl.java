@@ -19,33 +19,35 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-    private final CategoryRepository categoryRepository;
+        private final CategoryRepository categoryRepository;
 
-    @Override
-    public Mono<Category> save(CategoryDto categoryDto) {
-        Category category = Category.builder()
-                .publicId(UUID.randomUUID())
-                .name(categoryDto.name())
-                .build();
+        @Override
+        public Mono<Category> save(CategoryDto categoryDto) {
+                Category category = Category.builder()
+                                .publicId(UUID.randomUUID())
+                                .name(categoryDto.name())
+                                .build();
 
-        return categoryRepository.findByName(categoryDto.name())
-                .hasElement()
-                .flatMap(exists -> exists
-                        ? Mono.error(new CustomException(HttpStatus.BAD_REQUEST, "Category already exists with name: " + categoryDto.name()))
-                        : categoryRepository.save(category));
-    }
+                return categoryRepository.findByName(categoryDto.name())
+                                .hasElement()
+                                .flatMap(exists -> exists
+                                                ? Mono.error(new CustomException(HttpStatus.BAD_REQUEST,
+                                                                "Category already exists with name: " + categoryDto.name()))
+                                                : categoryRepository.save(category));
+        }
 
-    @Override
-    public Flux<CategoryDto> findAll() {
-        return categoryRepository.findAll()
-                .map(category -> new CategoryDto(category.getPublicId(), category.getName()));
-    }
+        @Override
+        public Flux<CategoryDto> findAll() {
+                return categoryRepository.findAll()
+                                .map(category -> new CategoryDto(category.getPublicId(), category.getName()));
+        }
 
-    @Override
-    public Mono<Void> deleteByPublicId(UUID publicId) {
-        return categoryRepository.findByPublicId(publicId)
-                .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND, "No category found with public id: " + publicId)))
-                .flatMap(category -> categoryRepository.deleteByPublicId(publicId));
-    }
+        @Override
+        public Mono<Void> deleteByPublicId(UUID publicId) {
+                return categoryRepository.deleteByPublicId(publicId)
+                                .switchIfEmpty(Mono.error(
+                                                new CustomException(HttpStatus.NOT_FOUND,
+                                                                "Category not found with public id: " + publicId)));
+        }
 
 }
