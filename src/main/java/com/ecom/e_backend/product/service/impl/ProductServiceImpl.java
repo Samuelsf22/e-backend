@@ -71,7 +71,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Mono<ProductDto> findByPublicId(UUID publicId) {
-        return null;
+        return productRepository.findByPublicId(publicId)
+                .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND, "No product found with public id: " + publicId)))
+                .map(product -> ProductDto.builder()
+                        .publicId(product.getPublicId())
+                        .name(product.getName())
+                        .description(product.getDescription())
+                        .brand(product.getBrand())
+                        .color(product.getColor())
+                        .price(product.getPrice())
+                        .featured(product.isFeatured())
+                        .stock(product.getStock())
+                        .category(product.getCategory().getName())
+                        .build());
     }
 
 }
