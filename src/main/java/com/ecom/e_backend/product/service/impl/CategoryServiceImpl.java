@@ -48,10 +48,10 @@ public class CategoryServiceImpl implements CategoryService {
 
         @Override
         public Mono<Void> deleteByPublicId(UUID publicId) {
-                return categoryRepository.deleteByPublicId(publicId)
+                return categoryRepository.findByPublicId(publicId)
                                 .switchIfEmpty(Mono.error(
-                                                new CustomException(HttpStatus.NOT_FOUND,
-                                                                "Category not found with public id: " + publicId)));
+                                                new CustomException(HttpStatus.NOT_FOUND, "Category not found with public id: " + publicId)))
+                                .flatMap(category -> categoryRepository.deleteByPublicId(publicId));
         }
 
 }

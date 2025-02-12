@@ -66,9 +66,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Mono<Void> deleteByPublicId(UUID publicId) {
-        return productRepository.deleteByPublicId(publicId)
-                .switchIfEmpty(Mono.error(
-                        new CustomException(HttpStatus.NOT_FOUND, "No product found with public id: " + publicId)));
+        return productRepository.findByPublicId(publicId)
+                .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND, "No product found with public id: " + publicId)))
+                .flatMap(product -> productRepository.deleteByPublicId(publicId));
     }
 
     @Override
