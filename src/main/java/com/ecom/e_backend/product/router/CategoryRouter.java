@@ -14,7 +14,7 @@ public class CategoryRouter {
     private static final String PATH = "/api/category";
 
     @Bean
-    RouterFunction<ServerResponse> router(CategoryHandler handler) {
+    RouterFunction<ServerResponse> categoryRoute(CategoryHandler handler) {
         return RouterFunctions.route()
                 .POST(PATH, handler::save)
                 .GET(PATH, handler::findAll)

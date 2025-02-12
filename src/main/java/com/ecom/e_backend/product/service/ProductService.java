@@ -18,4 +18,6 @@ public interface ProductService {
 
     Mono<ProductDto> findByPublicId(UUID publicId);
 
+    Mono<Void> updateQuantity(UUID publicId, int quantity);
+
 }

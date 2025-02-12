@@ -50,4 +50,12 @@ public class ProductHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(productService.findByPublicId(publicId), Product.class);
     }
+
+    public Mono<ServerResponse> updateQuantity(ServerRequest request) {
+        UUID publicId = UUID.fromString(request.pathVariable("public_id"));
+        int quantity = Integer.parseInt(request.pathVariable("quantity"));
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(productService.updateQuantity(publicId, quantity), Product.class);
+    }
 }

@@ -28,5 +28,6 @@ public class Product {
     private double price;
     private boolean featured;
     private int stock;
-    private Category category;
+    private String pictureUrl;
+    private Long categoryId;
 }

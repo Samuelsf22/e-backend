@@ -15,6 +15,7 @@ CREATE TABLE api_product (
      price DECIMAL(10,2) NOT NULL,
      featured BOOLEAN NOT NULL,
      stock INTEGER NOT NULL,
+     picture_url VARCHAR(255) NOT NULL,
      category_id BIGINT NOT NULL,
      CONSTRAINT fk_category_id FOREIGN KEY (category_id) REFERENCES api_category(id)
 );

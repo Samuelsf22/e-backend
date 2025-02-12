@@ -39,7 +39,11 @@ public class CategoryServiceImpl implements CategoryService {
         @Override
         public Flux<CategoryDto> findAll() {
                 return categoryRepository.findAll()
-                                .map(category -> new CategoryDto(category.getPublicId(), category.getName()));
+                                .map(category -> CategoryDto.builder()
+                                                .id(category.getId())
+                                                .publicId(category.getPublicId())
+                                                .name(category.getName())
+                                                .build());
         }
 
         @Override

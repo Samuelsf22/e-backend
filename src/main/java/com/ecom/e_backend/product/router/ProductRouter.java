@@ -11,15 +11,16 @@ import com.ecom.e_backend.product.handler.ProductHandler;
 @Configuration
 public class ProductRouter {
 
-    private final String PATH = "/api/product";
+    private static final String PATH = "/api/product";
     
     @Bean
-    RouterFunction<ServerResponse> router(ProductHandler handler) {
+    RouterFunction<ServerResponse> ProductRoute(ProductHandler handler) {
         return RouterFunctions.route()
                 .POST(PATH, handler::save)
                 .GET(PATH, handler::findAll)
                 .DELETE(PATH + "/{public_id}", handler::deleteByPublicId)
                 .GET(PATH + "/{public_id}", handler::findByPublicId)
+                .PUT(PATH + "/{public_id}/{quantity}", handler::updateQuantity)
                 .build();
     }
 }

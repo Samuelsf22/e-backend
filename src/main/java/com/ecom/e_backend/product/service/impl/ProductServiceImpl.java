@@ -27,24 +27,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Mono<Product> save(ProductDto productDto) {
-
-        Mono<Category> categoryMono = categoryRepository.findByName(productDto.category())
-                .switchIfEmpty(Mono.error(new RuntimeException("Category " + productDto.category() + " not found")));
-
-        Product product = Product.builder()
-                .publicId(UUID.randomUUID())
-                .name(productDto.name())
-                .price(productDto.price())
-                .description(productDto.description())
-                .brand(productDto.brand())
-                .color(productDto.color())
-                .price(productDto.price())
-                .featured(productDto.featured())
-                .stock(productDto.stock())
-                .category(categoryMono.block())
-                .build();
-
-        return productRepository.save(product);
+        return categoryRepository.findById(productDto.categoryId())
+                .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND, "Category not found")))
+                .flatMap(category -> {
+                        Product product = Product.builder()
+                                .publicId(UUID.randomUUID())
+                                .name(productDto.name())
+                                .price(productDto.price())
+                                .description(productDto.description())
+                                .brand(productDto.brand())
+                                .color(productDto.color())
+                                .price(productDto.price())
+                                .featured(productDto.featured())
+                                .stock(productDto.stock())
+                                .pictureUrl(productDto.pictureUrl())
+                                .categoryId(category.getId())
+                                .build();
+                
+                        return productRepository.save(product);
+        });
     }
 
     @Override
@@ -58,7 +59,8 @@ public class ProductServiceImpl implements ProductService {
                 .price(product.getPrice())
                 .featured(product.isFeatured())
                 .stock(product.getStock())
-                .category(product.getCategory().getName())
+                .pictureUrl(product.getPictureUrl())
+                .categoryId(product.getCategoryId())
                 .build());
     }
 
@@ -82,8 +84,16 @@ public class ProductServiceImpl implements ProductService {
                         .price(product.getPrice())
                         .featured(product.isFeatured())
                         .stock(product.getStock())
-                        .category(product.getCategory().getName())
+                        .pictureUrl(product.getPictureUrl())
+                        .categoryId(product.getCategoryId())
                         .build());
+    }
+
+    @Override
+    public Mono<Void> updateQuantity(UUID publicId, int quantity) {
+        return productRepository.updateQuantity(publicId, quantity).
+                switchIfEmpty(Mono.error(
+                        new CustomException(HttpStatus.NOT_FOUND, "No product found with public id: " + publicId)));
     }
 
 }
