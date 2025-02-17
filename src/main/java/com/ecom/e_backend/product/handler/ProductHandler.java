@@ -34,7 +34,7 @@ public class ProductHandler {
     public Mono<ServerResponse> findAll(ServerRequest request) {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(productService.findAll(), Product.class);
+                .body(productService.findAll(), ProductDto.class);
     }
 
     public Mono<ServerResponse> deleteByPublicId(ServerRequest request) {
@@ -48,7 +48,14 @@ public class ProductHandler {
         UUID publicId = UUID.fromString(request.pathVariable("public_id"));
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(productService.findByPublicId(publicId), Product.class);
+                .body(productService.findByPublicId(publicId), ProductDto.class);
+    }
+
+    public Mono<ServerResponse> findByCategoryPublicId(ServerRequest request) {
+        UUID categoryPublicId = UUID.fromString(request.pathVariable("category_public_id"));
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(productService.findByCategoryPublicId(categoryPublicId), ProductDto.class);
     }
 
     public Mono<ServerResponse> updateQuantity(ServerRequest request) {
@@ -56,6 +63,6 @@ public class ProductHandler {
         int quantity = Integer.parseInt(request.pathVariable("quantity"));
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(productService.updateQuantity(publicId, quantity), Product.class);
+                .body(productService.updateQuantity(publicId, quantity), Void.class);
     }
 }

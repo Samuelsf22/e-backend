@@ -20,6 +20,7 @@ public class ProductRouter {
                 .GET(PATH, handler::findAll)
                 .DELETE(PATH + "/{public_id}", handler::deleteByPublicId)
                 .GET(PATH + "/{public_id}", handler::findByPublicId)
+                .GET(PATH + "/category/{category_public_id}", handler::findByCategoryPublicId)
                 .PUT(PATH + "/{public_id}/{quantity}", handler::updateQuantity)
                 .build();
     }
