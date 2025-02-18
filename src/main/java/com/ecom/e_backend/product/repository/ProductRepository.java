@@ -17,10 +17,11 @@ public interface ProductRepository extends R2dbcRepository<Product, Long> {
 
     Mono<Void> deleteByPublicId(UUID publicId);
 
-    @Query("SELECT * FROM product WHERE category_public_id = :categoryPublicId")
-    Flux<Product> findByCategoryPublicId(UUID categoryPublicId);
+    Flux<Product> findByCategoryId(Long categoryId);
 
-    @Query("UPDATE product SET stock = stock - :quantity WHERE public_id = :publicId")
+    Flux<Product> findAllByFeaturedTrue();
+
+    @Query("UPDATE api_product SET stock = stock - :quantity WHERE public_id = :publicId")
     Mono<Void> updateQuantity(UUID publicId, int quantity);
 
 }

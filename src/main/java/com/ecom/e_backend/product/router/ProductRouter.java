@@ -12,16 +12,32 @@ import com.ecom.e_backend.product.handler.ProductHandler;
 public class ProductRouter {
 
     private static final String PATH = "/api/product";
-    
+
     @Bean
     RouterFunction<ServerResponse> ProductRoute(ProductHandler handler) {
         return RouterFunctions.route()
                 .POST(PATH, handler::save)
-                .GET(PATH, handler::findAll)
-                .DELETE(PATH + "/{public_id}", handler::deleteByPublicId)
-                .GET(PATH + "/{public_id}", handler::findByPublicId)
-                .GET(PATH + "/category/{category_public_id}", handler::findByCategoryPublicId)
-                .PUT(PATH + "/{public_id}/{quantity}", handler::updateQuantity)
+
+                .GET(PATH, request -> request.queryParam("public_id")
+                        .map(id -> handler.findByPublicId(request))
+                        .orElseGet(() -> handler.findAll(request)))
+
+                .GET(PATH + "/category", request -> request.queryParam("category_id")
+                        .map(id -> handler.findByCategoryPublicId(request))
+                        .orElse(ServerResponse.badRequest().bodyValue("category_id is required")))
+
+                .GET(PATH + "/featured", handler::findAllByFeatured)
+
+                .DELETE(PATH, request -> request.queryParam("public_id")
+                        .map(id -> handler.deleteByPublicId(request))
+                        .orElse(ServerResponse.badRequest().bodyValue("public_id is required")))
+
+                .PUT(PATH, request -> request.queryParam("public_id")
+                        .map(publicId -> request.queryParam("quantity")
+                                .map(quantity -> handler.updateQuantity(request))
+                                .orElse(ServerResponse.badRequest().bodyValue("quantity is required")))
+                        .orElse(ServerResponse.badRequest().bodyValue("public_id is required")))
+
                 .build();
     }
 }

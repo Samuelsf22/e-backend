@@ -89,9 +89,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Flux<ProductDto> findByCategoryPublicId(UUID categoryPublicId) {
-            return productRepository.findByCategoryPublicId(categoryPublicId)
-                .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND, "No products found for category with id: " + categoryPublicId)))
+    public Flux<ProductDto> findByCategoryId(Long categoryId) {
+            return productRepository.findByCategoryId(categoryId)
+                .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND, "No products found for category with id: " + categoryId)))
                 .map(product -> ProductDto.builder()
                         .publicId(product.getPublicId())
                         .name(product.getName())
@@ -103,6 +103,22 @@ public class ProductServiceImpl implements ProductService {
                         .stock(product.getStock())
                         .pictureUrl(product.getPictureUrl())
                         .categoryId(product.getCategoryId())
+                        .build());
+    }
+
+    @Override
+    public Flux<ProductDto> findAllByFeatured() {
+        return productRepository.findAllByFeaturedTrue()
+                .map(product -> ProductDto.builder()
+                        .publicId(product.getPublicId())
+                        .name(product.getName())
+                        .description(product.getDescription())
+                        .brand(product.getBrand())
+                        .color(product.getColor())
+                        .price(product.getPrice())
+                        .featured(product.isFeatured())
+                        .stock(product.getStock())
+                        .pictureUrl(product.getPictureUrl())
                         .build());
     }
 

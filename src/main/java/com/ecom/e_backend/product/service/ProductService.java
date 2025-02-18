@@ -18,7 +18,9 @@ public interface ProductService {
 
     Mono<ProductDto> findByPublicId(UUID publicId);
 
-    Flux<ProductDto> findByCategoryPublicId(UUID categoryPublicId);
+    Flux<ProductDto> findByCategoryId(Long categoryId);
+
+    Flux<ProductDto> findAllByFeatured();
 
     Mono<Void> updateQuantity(UUID publicId, int quantity);
 
