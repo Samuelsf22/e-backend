@@ -1,4 +1,4 @@
-package com.ecom.e_backend.security.router;
+package com.ecom.e_backend.auth.infrastructure.router;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -6,15 +6,12 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import com.ecom.e_backend.security.handler.AuthHandler;
-
-import lombok.extern.slf4j.Slf4j;
+import com.ecom.e_backend.auth.infrastructure.handler.AuthHandler;
 
 @Configuration
-@Slf4j
 public class AuthRouter {
 
-    private static final String PATH = "auth/";
+    private static final String PATH = "api/auth/";
 
     @Bean
     RouterFunction<ServerResponse> authRoute(AuthHandler authHandler) {

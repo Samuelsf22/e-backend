@@ -1,4 +1,4 @@
-package com.ecom.e_backend.security.repository;
+package com.ecom.e_backend.auth.infrastructure.repository;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -7,7 +7,7 @@ import org.springframework.security.web.server.context.ServerSecurityContextRepo
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
-import com.ecom.e_backend.security.jwt.JwtAuthenticationManager;
+import com.ecom.e_backend.auth.infrastructure.jwt.JwtAuthenticationManager;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.ecom.e_backend.security.config;
+package com.ecom.e_backend.auth.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

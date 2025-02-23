@@ -1,4 +1,4 @@
-package com.ecom.e_backend.security.jwt;
+package com.ecom.e_backend.auth.infrastructure.jwt;
 
 import java.util.Date;
 

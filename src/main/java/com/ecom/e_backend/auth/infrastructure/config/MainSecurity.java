@@ -1,4 +1,4 @@
-package com.ecom.e_backend.security.config;
+package com.ecom.e_backend.auth.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,8 +8,8 @@ import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
-import com.ecom.e_backend.security.jwt.JwtFilter;
-import com.ecom.e_backend.security.repository.SecurityContextRepository;
+import com.ecom.e_backend.auth.infrastructure.jwt.JwtFilter;
+import com.ecom.e_backend.auth.infrastructure.repository.SecurityContextRepository;
 
 import lombok.RequiredArgsConstructor;
 

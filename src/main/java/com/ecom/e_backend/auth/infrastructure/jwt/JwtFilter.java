@@ -1,6 +1,4 @@
-package com.ecom.e_backend.security.jwt;
-
-import java.util.List;
+package com.ecom.e_backend.auth.infrastructure.jwt;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,11 +10,9 @@ import org.springframework.web.server.WebFilterChain;
 
 import com.ecom.e_backend.exception.CustomException;
 
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @Component
-@Slf4j
 public class JwtFilter implements WebFilter {
 
     @Override
@@ -26,7 +22,7 @@ public class JwtFilter implements WebFilter {
         String path = request.getPath().value();
         if (path.contains("auth")
                 || (path.contains("category") && request.getMethod().matches("GET"))
-                || (path.contains("product") && request.getMethod().matches("GET"))) 
+                || (path.contains("product") && request.getMethod().matches("GET")))
             return chain.filter(exchange);
 
         String auth = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
