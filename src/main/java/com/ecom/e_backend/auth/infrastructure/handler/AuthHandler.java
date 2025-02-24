@@ -8,8 +8,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import com.ecom.e_backend.auth.domain.AuthService;
 import com.ecom.e_backend.auth.domain.AuthToken;
 import com.ecom.e_backend.auth.infrastructure.dto.RequestUserDto;
+import com.ecom.e_backend.user.domain.models.User;
 import com.ecom.e_backend.auth.infrastructure.dto.LoginDto;
-import com.ecom.e_backend.security.entity.User;
 import com.ecom.e_backend.validation.ObjectValidator;
 
 import lombok.RequiredArgsConstructor;

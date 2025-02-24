@@ -1,6 +1,6 @@
 package com.ecom.e_backend.auth.domain;
 
-import com.ecom.e_backend.security.entity.User;
+import com.ecom.e_backend.user.domain.models.User;
 
 import reactor.core.publisher.Mono;
 
