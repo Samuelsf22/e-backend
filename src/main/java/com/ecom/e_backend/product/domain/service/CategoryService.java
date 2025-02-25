@@ -14,5 +14,7 @@ public interface CategoryService {
     Mono<Category> save(Category category);
 
     Mono<Void> delete(UUID publicId);
+
+    Mono<Category> findByPublicId(UUID publicId);
     
 }

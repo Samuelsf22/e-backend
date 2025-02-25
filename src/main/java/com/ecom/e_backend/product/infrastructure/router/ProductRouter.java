@@ -15,30 +15,29 @@ public class ProductRouter {
 
     @Bean
     RouterFunction<ServerResponse> ProductRoute(ProductHandler handler) {
-        return null;
-        // return RouterFunctions.route()
-                // .POST(PATH, handler::save)
+        return RouterFunctions.route()
+                .POST(PATH, handler::save)
 
-                // .GET(PATH, request -> request.queryParam("public_id")
-                //         .map(id -> handler.findByPublicId(request))
-                //         .orElseGet(() -> handler.findAll(request)))
+                .GET(PATH, request -> request.queryParam("public_id")
+                        .map(id -> handler.findByPublicId(request))
+                        .orElseGet(() -> handler.findAll(request)))
 
-                // .GET(PATH + "/category", request -> request.queryParam("category_id")
-                //         .map(id -> handler.findByCategoryPublicId(request))
-                //         .orElse(ServerResponse.badRequest().bodyValue("category_id is required")))
+                .GET(PATH + "/category", request -> request.queryParam("category_public_id")
+                        .map(id -> handler.findByCategoryPublicId(request))
+                        .orElse(ServerResponse.badRequest().bodyValue("category_public_id is required")))
 
-                // .GET(PATH + "/featured", handler::findAllByFeatured)
+                .GET(PATH + "/featured", handler::findAllByFeatured)
 
-                // .DELETE(PATH, request -> request.queryParam("public_id")
-                //         .map(id -> handler.deleteByPublicId(request))
-                //         .orElse(ServerResponse.badRequest().bodyValue("public_id is required")))
+                .DELETE(PATH, request -> request.queryParam("public_id")
+                        .map(id -> handler.deleteByPublicId(request))
+                        .orElse(ServerResponse.badRequest().bodyValue("public_id is required")))
 
-                // .PUT(PATH, request -> request.queryParam("public_id")
-                //         .map(publicId -> request.queryParam("quantity")
-                //                 .map(quantity -> handler.updateQuantity(request))
-                //                 .orElse(ServerResponse.badRequest().bodyValue("quantity is required")))
-                //         .orElse(ServerResponse.badRequest().bodyValue("public_id is required")))
+                .PUT(PATH, request -> request.queryParam("public_id")
+                        .map(publicId -> request.queryParam("quantity")
+                                .map(quantity -> handler.updateQuantity(request))
+                                .orElse(ServerResponse.badRequest().bodyValue("quantity is required")))
+                        .orElse(ServerResponse.badRequest().bodyValue("public_id is required")))
 
-                // .build();
+                .build();
     }
 }

@@ -18,6 +18,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
+    private static final long MIN_QUANTITY = 1;
+
     private final ProductRepository productRepository;
 
     @Override
@@ -57,10 +59,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Mono<Product> updateQuantity(UUID publicId, long quantity) {
-        return productRepository.updateQuantity(publicId, quantity)
-                .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND, "Product not found")));
-
+    public Mono<Void> updateQuantity(UUID publicId, long quantity) {
+        if (quantity < MIN_QUANTITY) {
+            return Mono.error(new CustomException(HttpStatus.BAD_REQUEST, "Quantity must be greater than 0"));
+        }
+        return productRepository.existsByPublicId(publicId)
+                .flatMap(exists -> {
+                    if (!exists) {
+                        return Mono.error(new CustomException(HttpStatus.NOT_FOUND, "Product not found"));
+                    }
+                    return productRepository.updateQuantity(publicId, quantity);
+                });
     }
 
 }

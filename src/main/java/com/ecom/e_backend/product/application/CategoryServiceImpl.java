@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
                 .flatMap(exists -> {
                     if (exists)
                         return Mono.error(new CustomException(HttpStatus.CONFLICT, "Category already exists"));
-                        
+
                     category.setPublicId(UUID.randomUUID());
                     return categoryRepository.save(category);
                 });
@@ -43,6 +43,13 @@ public class CategoryServiceImpl implements CategoryService {
                 .switchIfEmpty(Mono.error(
                         new CustomException(HttpStatus.NOT_FOUND, "Category not found")))
                 .flatMap(category -> categoryRepository.deleteByPublicId(publicId));
+    }
+
+    @Override
+    public Mono<Category> findByPublicId(UUID publicId) {
+        return categoryRepository.findByPublicId(publicId)
+                .switchIfEmpty(Mono.error(
+                        new CustomException(HttpStatus.NOT_FOUND, "Category not found")));
     }
 
 }

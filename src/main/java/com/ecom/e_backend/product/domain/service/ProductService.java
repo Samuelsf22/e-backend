@@ -21,6 +21,6 @@ public interface ProductService {
 
     Flux<Product> findAllFeaturedProducts();
 
-    Mono<Product> updateQuantity(UUID publicId, long quantity);
+    Mono<Void> updateQuantity(UUID publicId, long quantity);
     
 }

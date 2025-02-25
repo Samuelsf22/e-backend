@@ -21,7 +21,7 @@ public interface ProductRepository {
 
     Mono<Void> deleteByPublicId(UUID publicId);
 
-    Mono<Product> updateQuantity(UUID publicId, long quantity);
+    Mono<Void> updateQuantity(UUID publicId, long quantity);
 
     Mono<Boolean> existsByPublicId(UUID publicId);
     
