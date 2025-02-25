@@ -2,7 +2,7 @@ package com.ecom.e_backend.order;
 
 import java.util.UUID;
 
-import com.ecom.e_backend.product.entity.Product;
+import com.ecom.e_backend.product.infrastructure.entity.ProductEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +21,7 @@ public class OrderedProductEntity {
     private int quantity;
     private String productName;
 
-    public static OrderedProductEntity create(int quantity, Product product){
+    public static OrderedProductEntity create(int quantity, ProductEntity product){
         return OrderedProductEntity.builder()
             .price(product.getPrice())
             .quantity(quantity)
