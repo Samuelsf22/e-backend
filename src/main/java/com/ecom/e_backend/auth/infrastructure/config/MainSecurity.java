@@ -25,7 +25,7 @@ public class MainSecurity {
     public SecurityWebFilterChain filterChain(ServerHttpSecurity http, JwtFilter jwtFilter) {
         return http
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/auth/**", "/api/**").permitAll()
+                        .pathMatchers("/api/**").permitAll()
                         .anyExchange().authenticated())
                 .addFilterAfter(jwtFilter, SecurityWebFiltersOrder.FIRST)
                 .securityContextRepository(securityContextRepository)
