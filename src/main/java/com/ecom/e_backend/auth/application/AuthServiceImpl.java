@@ -1,8 +1,13 @@
 package com.ecom.e_backend.auth.application;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -55,10 +60,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private String generateToken(User user) {
+        List<GrantedAuthority> authorities = Arrays.stream(user.getRoles().split(",\\s*"))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
         UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .authorities(user.getRoles())
+                .authorities(authorities)
                 .build();
         return jwtProvider.generateToken(userDetails);
     }

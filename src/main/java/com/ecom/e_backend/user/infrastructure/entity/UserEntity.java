@@ -46,7 +46,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Stream.of(roles.split(", "))
+        return Stream.of(roles.split(",\\s*")) 
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
