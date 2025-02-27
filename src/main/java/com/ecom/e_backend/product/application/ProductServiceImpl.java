@@ -24,6 +24,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Mono<Product> save(Product product) {
+        product.setPublicId(UUID.randomUUID());
         return productRepository.save(product);
     }
 
