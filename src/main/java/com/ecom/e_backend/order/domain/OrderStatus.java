@@ -1,4 +1,4 @@
-package com.ecom.e_backend.order.v0;
+package com.ecom.e_backend.order.domain;
 
 public enum OrderStatus {
     PENDING,
