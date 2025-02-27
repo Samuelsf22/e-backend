@@ -18,6 +18,14 @@ public class Order {
     private Long userId;
     private OrderStatus status;
 
+    public static Order create(Long userId) {
+        return Order.builder()
+                .publicId(UUID.randomUUID())
+                .userId(userId)
+                .status(OrderStatus.PENDING)
+                .build();
+    }
+
     public void validatePayment() {
         this.status = OrderStatus.PAID;
     }

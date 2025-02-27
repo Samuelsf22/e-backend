@@ -8,7 +8,7 @@ CREATE TABLE api_order (
 
 CREATE TABLE api_ordered_product (
     order_id BIGINT NOT NULL,
-    product_id BIGINT NOT NULL,
+    product_id UUID NOT NULL,
     quantity INTEGER NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     product_name VARCHAR(255) NOT NULL,

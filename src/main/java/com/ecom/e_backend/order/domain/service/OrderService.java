@@ -1,0 +1,21 @@
+package com.ecom.e_backend.order.domain.service;
+
+import java.util.UUID;
+
+import com.ecom.e_backend.order.domain.models.Order;
+import com.ecom.e_backend.order.domain.models.OrderedProduct;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+public interface OrderService {
+
+    Mono<Void> createOrder(Long userId, Flux<OrderedProduct> products);
+
+    Flux<Order> findAllByUserPublicId(UUID userPublicId);
+
+    Flux<Order> findAll();
+
+    Flux<OrderedProduct> updateStatusByPublicId(UUID publicId);
+
+}
