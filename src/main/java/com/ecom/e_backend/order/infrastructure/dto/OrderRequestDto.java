@@ -1,6 +1,7 @@
 package com.ecom.e_backend.order.infrastructure.dto;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.ecom.e_backend.order.domain.models.OrderedProduct;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,8 +15,8 @@ import reactor.core.publisher.Flux;
 public record OrderRequestDto(
 
     @NotNull(message = "User id is required")
-    @JsonProperty("user_id")
-    Long userId,
+    @JsonProperty("user_public_id")
+    UUID userPublicId,
 
     @NotEmpty(message = "At least one product is required")
     List<OrderedProductDto> products

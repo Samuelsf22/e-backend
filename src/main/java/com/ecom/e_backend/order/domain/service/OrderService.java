@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 
 public interface OrderService {
 
-    Mono<Void> createOrder(Long userId, Flux<OrderedProduct> products);
+    Mono<Void> createOrder(UUID userPublicId, Flux<OrderedProduct> products);
 
     Flux<Order> findAllByUserPublicId(UUID userPublicId);
 

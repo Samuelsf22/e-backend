@@ -24,7 +24,7 @@ public class OrderHandler {
         return request.bodyToMono(OrderRequestDto.class).doOnNext(objectValidator::validate)
                 .flatMap(dto -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(orderService.createOrder(dto.userId(), dto.getOrderedProduct()), Void.class));
+                        .body(orderService.createOrder(dto.userPublicId(), dto.getOrderedProduct()), Void.class));
     }
     
 }
