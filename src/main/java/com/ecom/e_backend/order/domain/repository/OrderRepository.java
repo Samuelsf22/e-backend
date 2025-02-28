@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.ecom.e_backend.order.domain.OrderStatus;
 import com.ecom.e_backend.order.domain.models.Order;
 
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface OrderRepository {
@@ -13,8 +14,8 @@ public interface OrderRepository {
 
     Mono<Void> updateStatusByPublicId(OrderStatus status, UUID publicId);
     
-    Mono<Order> findAllByUserPublicId(UUID userPublicId);
+    Flux<Order> findAllByUserPublicId(UUID userPublicId);
 
-    Mono<Order> findAll();
+    Flux<Order> findAll();
 
 }

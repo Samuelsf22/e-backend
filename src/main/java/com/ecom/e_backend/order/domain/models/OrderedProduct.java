@@ -11,6 +11,7 @@ import lombok.Builder;
 @Builder
 public class OrderedProduct {
 
+    private Long id;
     private Long orderId;
     private UUID productPublicId;
     private double price;

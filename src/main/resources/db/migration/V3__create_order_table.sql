@@ -7,12 +7,13 @@ CREATE TABLE api_order (
 );
 
 CREATE TABLE api_ordered_product (
+    id BIGSERIAL PRIMARY KEY,
     order_id BIGINT NOT NULL,
     product_id UUID NOT NULL,
     quantity INTEGER NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     product_name VARCHAR(255) NOT NULL,
     CONSTRAINT fk_order_id FOREIGN KEY (order_id) REFERENCES api_order(id),
-    CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES api_product(id),
-    CONSTRAINT pk_order_product PRIMARY KEY (order_id, product_id)
+    CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES api_product(public_id),
+    CONSTRAINT unique_order_product UNIQUE (order_id, product_id)
 );

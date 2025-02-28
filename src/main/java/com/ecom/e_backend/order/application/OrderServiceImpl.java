@@ -1,4 +1,4 @@
-package com.ecom.e_backend.order.domain.application;
+package com.ecom.e_backend.order.application;
 
 import java.util.UUID;
 
@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Flux<Order> findAll() {
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        return orderRepository.findAll();
     }
 
     @Override
