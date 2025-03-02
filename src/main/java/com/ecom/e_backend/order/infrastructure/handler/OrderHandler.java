@@ -3,6 +3,7 @@ package com.ecom.e_backend.order.infrastructure.handler;
 import java.util.UUID;
 
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -30,7 +31,7 @@ public class OrderHandler {
                         .body(orderService.createOrder(dto.userPublicId(), dto.getOrderedProduct()), Void.class));
     }
 
-    public Mono<ServerResponse> getOrders(ServerRequest request) {
+    public Mono<ServerResponse> getOrdersByUserPublicId(ServerRequest request) {
         UUID userPublicId = UUID.fromString(request.queryParam("user_public_id").get());
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
@@ -44,4 +45,10 @@ public class OrderHandler {
                 .body(orderService.findAllOrderedProductsByOrderPublicId(orderPublicId).map(OrderDetailResponseDto::from), OrderDetailResponseDto.class);
     }
     
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Mono<ServerResponse> getAllOrders(ServerRequest request) {
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(orderService.findAll().map(OrderResponseDto::from), OrderResponseDto.class);
+    }
 }
