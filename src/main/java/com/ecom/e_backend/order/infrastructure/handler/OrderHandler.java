@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 import com.ecom.e_backend.order.domain.service.OrderService;
 import com.ecom.e_backend.order.infrastructure.dto.OrderDetailResponseDto;
 import com.ecom.e_backend.order.infrastructure.dto.OrderRequestDto;
+import com.ecom.e_backend.order.infrastructure.dto.OrderResponseDto;
 import com.ecom.e_backend.validation.ObjectValidator;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,13 @@ public class OrderHandler {
                 .flatMap(dto -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(orderService.createOrder(dto.userPublicId(), dto.getOrderedProduct()), Void.class));
+    }
+
+    public Mono<ServerResponse> getOrders(ServerRequest request) {
+        UUID userPublicId = UUID.fromString(request.queryParam("user_public_id").get());
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(orderService.findAllByUserPublicId(userPublicId).map(OrderResponseDto::from), OrderResponseDto.class);
     }
 
     public Mono<ServerResponse> getOrderDetails(ServerRequest request) {

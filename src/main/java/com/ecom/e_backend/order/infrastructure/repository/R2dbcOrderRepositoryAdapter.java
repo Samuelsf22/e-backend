@@ -31,7 +31,7 @@ public class R2dbcOrderRepositoryAdapter implements OrderRepository{
 
     @Override
     public Flux<Order> findAllByUserPublicId(UUID userPublicId) {
-        throw new UnsupportedOperationException("Unimplemented method 'findAllByUserPublicId'");
+        return r2dbcOrderRepository.findAllByUserPublicId(userPublicId).map(OrderEntity::toDomain);
     }
 
     @Override

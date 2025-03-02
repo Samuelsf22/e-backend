@@ -44,7 +44,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Flux<Order> findAllByUserPublicId(UUID userPublicId) {
-        throw new UnsupportedOperationException("Unimplemented method 'findAllByUserPublicId'");
+        return orderRepository.findAllByUserPublicId(userPublicId)
+                .switchIfEmpty(Flux.error(new CustomException(HttpStatus.NOT_FOUND, "No orders found for user with public id: " + userPublicId)));
     }
 
     @Override
