@@ -17,5 +17,6 @@ CREATE TABLE api_product (
      stock INTEGER NOT NULL,
      picture_url VARCHAR(255) NOT NULL,
      category_id BIGINT NOT NULL,
-     CONSTRAINT fk_category_id FOREIGN KEY (category_id) REFERENCES api_category(id)
+     CONSTRAINT fk_category_id FOREIGN KEY (category_id) REFERENCES api_category(id),
+     CONSTRAINT unique_product_public_id UNIQUE (public_id)
 );
