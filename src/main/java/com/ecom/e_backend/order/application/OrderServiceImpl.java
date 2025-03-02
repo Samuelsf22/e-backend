@@ -2,8 +2,10 @@ package com.ecom.e_backend.order.application;
 
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.ecom.e_backend.exception.CustomException;
 import com.ecom.e_backend.order.domain.models.Order;
 import com.ecom.e_backend.order.domain.models.OrderedProduct;
 import com.ecom.e_backend.order.domain.repository.OrderRepository;
@@ -53,6 +55,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Flux<OrderedProduct> updateStatusByPublicId(UUID publicId) {
         throw new UnsupportedOperationException("Unimplemented method 'updateStatusByPublicId'");
+    }
+
+    @Override
+    public Flux<OrderedProduct> findAllOrderedProductsByOrderPublicId(UUID orderPublicId) {
+        return orderedProductRepository.findAllByOrderPublicId(orderPublicId)
+                .switchIfEmpty(Flux.error(new CustomException(HttpStatus.NOT_FOUND, "No products found for order with public id: " + orderPublicId)));
     }
 
 }

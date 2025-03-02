@@ -24,7 +24,7 @@ public class OrderedProductEntity {
     @Column("order_id")
     private Long orderId;
 
-    @Column("product_id")
+    @Column("product_public_id")
     private UUID productPublicId;
 
     private Double price;

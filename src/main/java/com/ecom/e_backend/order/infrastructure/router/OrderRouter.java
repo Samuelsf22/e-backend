@@ -17,6 +17,10 @@ public class OrderRouter {
     RouterFunction<ServerResponse> orderRoute(OrderHandler handler) {
         return RouterFunctions.route()
                 .POST(PATH, handler::createOrder)
+
+                .GET(PATH, request -> request.queryParam("order_public_id")
+                        .map(id -> handler.getOrderDetails(request))
+                        .orElse(ServerResponse.badRequest().bodyValue("Order public id is required")))
                 .build();
     }
     

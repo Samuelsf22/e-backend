@@ -18,4 +18,6 @@ public interface OrderService {
 
     Flux<OrderedProduct> updateStatusByPublicId(UUID publicId);
 
+    Flux<OrderedProduct> findAllOrderedProductsByOrderPublicId(UUID orderPublicId);
+
 }

@@ -1,5 +1,7 @@
 package com.ecom.e_backend.order.infrastructure.repository;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Repository;
 
 import com.ecom.e_backend.order.domain.models.OrderedProduct;
@@ -18,6 +20,11 @@ public class R2dbcOrderedProductRepositoryAdapter implements OrderedProductRepos
     @Override
     public Flux<OrderedProduct> saveAll(Flux<OrderedProduct> products) {
         return r2dbcOrderedProductRepository.saveAll(products.map(OrderedProductEntity::toEntity)).map(OrderedProductEntity::toDomain);
+    }
+
+    @Override
+    public Flux<OrderedProduct> findAllByOrderPublicId(UUID orderPublicId) {     
+        return r2dbcOrderedProductRepository.findAllByOrderPublicId(orderPublicId).map(OrderedProductEntity::toDomain);
     }
     
 }

@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.ecom.e_backend.order.domain.models.OrderedProduct;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -19,6 +20,7 @@ public record OrderRequestDto(
     UUID userPublicId,
 
     @NotEmpty(message = "At least one product is required")
+    @Valid
     List<OrderedProductDto> products
 
 ) {

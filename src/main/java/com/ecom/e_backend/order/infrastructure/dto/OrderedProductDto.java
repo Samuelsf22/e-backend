@@ -6,19 +6,20 @@ import com.ecom.e_backend.order.domain.models.OrderedProduct;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
+@Builder
 public record OrderedProductDto(
 
-    @NotBlank(message = "Product public id is required")
-    @JsonProperty("product_id")
+    @NotNull(message = "Product public id is required")
+    @JsonProperty("product_public_id")
     UUID productPublicId,
 
-    @NotBlank(message = "Price is required")
+    @NotNull(message = "Price is required")
     Double price,
 
-    @NotBlank(message = "Quantity is required")
-    @Size(min = 1, message = "Quantity must be greater than 0")
+    @NotNull(message = "Quantity is required")
     Integer quantity,
 
     @NotBlank(message = "Product name is required")
@@ -32,6 +33,15 @@ public record OrderedProductDto(
                 .price(price)
                 .quantity(quantity)
                 .productName(productName)
+                .build();
+    }
+
+    public static OrderedProductDto from(OrderedProduct orderedProduct) {
+        return OrderedProductDto.builder()
+                .productPublicId(orderedProduct.getProductPublicId())
+                .price(orderedProduct.getPrice())
+                .quantity(orderedProduct.getQuantity())
+                .productName(orderedProduct.getProductName())
                 .build();
     }
     
