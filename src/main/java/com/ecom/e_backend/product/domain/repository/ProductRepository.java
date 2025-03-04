@@ -24,5 +24,7 @@ public interface ProductRepository {
     Mono<Void> updateQuantity(UUID publicId, long quantity);
 
     Mono<Boolean> existsByPublicId(UUID publicId);
+
+    Flux<Product> findRelatedProducts(UUID publicId);
     
 }

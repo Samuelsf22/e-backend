@@ -58,5 +58,10 @@ public class R2dbcProductRepositoryAdapter implements ProductRepository {
         return r2dbcProductRepository.existsByPublicId(publicId);
     }
 
+    @Override
+    public Flux<Product> findRelatedProducts(UUID publicId) {
+        return r2dbcProductRepository.findRelatedProducts(publicId).map(ProductEntity::toDomain);
+    }
+
 
 }

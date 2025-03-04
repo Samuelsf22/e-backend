@@ -22,5 +22,7 @@ public interface ProductService {
     Flux<Product> findAllFeaturedProducts();
 
     Mono<Void> updateQuantity(UUID publicId, long quantity);
+
+    Flux<Product> findRelatedProducts(UUID publicId);
     
 }

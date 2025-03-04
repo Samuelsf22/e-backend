@@ -72,6 +72,14 @@ public class ProductHandler {
                 .body(productService.findAllFeaturedProducts().map(ProductResponseDto::fromProduct), ProductResponseDto.class);
     }
 
+    public Mono<ServerResponse> findRelatedProducts(ServerRequest request) {
+        UUID publicId = UUID.fromString(request.queryParam("public_id").get());
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(productService.findRelatedProducts(publicId).map(ProductResponseDto::fromProduct),
+                        ProductResponseDto.class);
+    }
+
     public Mono<ServerResponse> updateQuantity(ServerRequest request) {
         UUID publicId = UUID.fromString(request.queryParam("public_id").get());
         int quantity = Integer.parseInt(request.queryParam("quantity").get());

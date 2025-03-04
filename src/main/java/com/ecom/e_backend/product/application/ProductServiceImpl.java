@@ -73,4 +73,10 @@ public class ProductServiceImpl implements ProductService {
                 });
     }
 
+    @Override
+    public Flux<Product> findRelatedProducts(UUID publicId) {
+        return productRepository.findRelatedProducts(publicId)
+                .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND, "No related products found")));
+    }
+
 }

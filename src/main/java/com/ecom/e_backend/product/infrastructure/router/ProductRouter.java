@@ -28,6 +28,10 @@ public class ProductRouter {
 
                 .GET(PATH + "/featured", handler::findAllByFeatured)
 
+                .GET(PATH + "/related", request -> request.queryParam("public_id")
+                        .map(id -> handler.findRelatedProducts(request))
+                        .orElse(ServerResponse.badRequest().bodyValue("public_id is required")))
+
                 .DELETE(PATH, request -> request.queryParam("public_id")
                         .map(id -> handler.deleteByPublicId(request))
                         .orElse(ServerResponse.badRequest().bodyValue("public_id is required")))
