@@ -3,6 +3,7 @@ package com.ecom.e_backend.product.infrastructure.handler;
 import java.util.UUID;
 
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -26,6 +27,7 @@ public class ProductHandler {
 
     private final ObjectValidator objectValidator;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Mono<ServerResponse> save(ServerRequest request) {
         return request.bodyToMono(ProductRequestDto.class)
                 .doOnNext(objectValidator::validate)
@@ -43,6 +45,7 @@ public class ProductHandler {
                 .body(productService.findAll().map(ProductResponseDto::fromProduct), ProductResponseDto.class);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Mono<ServerResponse> deleteByPublicId(ServerRequest request) {
         UUID publicId = UUID.fromString(request.queryParam("public_id").get());
         return ServerResponse.ok()
