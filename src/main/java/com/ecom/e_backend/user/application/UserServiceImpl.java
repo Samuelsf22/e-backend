@@ -43,4 +43,10 @@ public class UserServiceImpl implements UserService {
                 .flatMap(user -> userRepository.deleteByPublicId(publicId));
     }
 
+    @Override
+    public Mono<User> findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND, "User not found")));
+    }
+
 }

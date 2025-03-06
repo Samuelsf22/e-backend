@@ -13,6 +13,8 @@ public interface UserService {
 
     Mono<User> findByPublicId(UUID publicId);
 
+    Mono<User> findByUsername(String username);
+
     Mono<User> update(UUID publicId, User user);
 
     Mono<Void> delete(UUID publicId);
