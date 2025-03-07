@@ -26,7 +26,7 @@ public class R2dbcOrderRepositoryAdapter implements OrderRepository{
 
     @Override
     public Mono<Void> updateStatusByPublicId(OrderStatus status, UUID publicId) {
-        throw new UnsupportedOperationException("Unimplemented method 'updateStatusByPublicId'");
+        return r2dbcOrderRepository.updateStatusByPublicId(status, publicId);
     }
 
     @Override

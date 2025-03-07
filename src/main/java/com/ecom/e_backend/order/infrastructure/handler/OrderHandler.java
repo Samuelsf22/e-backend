@@ -60,4 +60,10 @@ public class OrderHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(orderService.findAll().map(OrderResponseDto::from), OrderResponseDto.class);
     }
+
+    public Mono<ServerResponse> markOrderAsPaid(ServerRequest request) {
+        UUID orderPublicId = UUID.fromString(request.queryParam("order_public_id").get());
+        return orderService.updateStatusByPublicId(orderPublicId)
+                .flatMap(orderedProduct -> ServerResponse.ok().bodyValue("Order paid successfully"));
+    }
 }

@@ -16,7 +16,7 @@ public interface OrderService {
 
     Flux<Order> findAll();
 
-    Flux<OrderedProduct> updateStatusByPublicId(UUID publicId);
+    Mono<Void> updateStatusByPublicId(UUID publicId);
 
     Flux<OrderedProduct> findAllOrderedProductsByOrderPublicId(UUID orderPublicId);
 

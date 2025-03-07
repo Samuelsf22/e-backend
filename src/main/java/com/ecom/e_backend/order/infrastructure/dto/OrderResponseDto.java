@@ -10,7 +10,7 @@ import lombok.Builder;
 @Builder
 public record OrderResponseDto(
 
-    @JsonProperty("order_public_id")
+    @JsonProperty("public_id")
     UUID publicId,
 
     String status

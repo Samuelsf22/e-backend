@@ -28,6 +28,10 @@ public class OrderRouter {
 
                 .GET(PATH, handler::getAllOrders)
 
+                .PUT(PATH + "/payment", request -> request.queryParam("order_public_id")
+                        .map(id -> handler.markOrderAsPaid(request))
+                        .orElse(ServerResponse.badRequest().bodyValue("Order public id is required")))
+
                 .build();
     }
     
