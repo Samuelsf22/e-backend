@@ -32,8 +32,9 @@ public class ProductEntity {
     private boolean featured;
     private int stock;
     
-    @Column("picture_url")
-    private String pictureUrl;
+    private String imagePublicId;
+    private String imageUrl;
+    private String imageName;
 
     @Column("category_id")
     private Long categoryId;
@@ -49,7 +50,9 @@ public class ProductEntity {
             .price(product.getPrice())
             .featured(product.isFeatured())
             .stock(product.getStock())
-            .pictureUrl(product.getPictureUrl())
+            .imagePublicId(product.getImagePublicId())
+            .imageUrl(product.getImageUrl())
+            .imageName(product.getImageName())
             .categoryId(product.getCategoryId())
             .build();
     }
@@ -65,7 +68,9 @@ public class ProductEntity {
             .price(productEntity.getPrice())
             .featured(productEntity.isFeatured())
             .stock(productEntity.getStock())
-            .pictureUrl(productEntity.getPictureUrl())
+            .imagePublicId(productEntity.getImagePublicId())
+            .imageUrl(productEntity.getImageUrl())
+            .imageName(productEntity.getImageName())
             .categoryId(productEntity.getCategoryId())
             .build();
     }
