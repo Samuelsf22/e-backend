@@ -1,7 +1,5 @@
 package com.ecom.e_backend.product.domain.service;
 
-import java.util.UUID;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ecom.e_backend.product.domain.models.Image;
@@ -12,6 +10,6 @@ public interface ImageService {
 
     Mono<Image> save(MultipartFile file);
 
-    Mono<Void> delete(UUID publicId);
+    Mono<Void> delete(String publicId);
     
 }
