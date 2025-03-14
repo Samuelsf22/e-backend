@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ecom.e_backend.exception.CustomException;
 import com.ecom.e_backend.product.domain.models.Product;
 import com.ecom.e_backend.product.domain.repository.ProductRepository;
-import com.ecom.e_backend.product.domain.service.CloudinaryService;
+import com.ecom.e_backend.product.domain.service.CloudStorageService;
 import com.ecom.e_backend.product.domain.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,11 +25,11 @@ public class ProductServiceImpl implements ProductService {
     private static final long MIN_QUANTITY = 1;
 
     private final ProductRepository productRepository;
-    private final CloudinaryService cloudinaryService;
+    private final CloudStorageService cloudStorageService;
 
     @Override
     public Mono<Product> save(Product product, FilePart file) throws IOException {
-        return cloudinaryService.save(file)
+        return cloudStorageService.save(file)
                 .flatMap(uploadResult -> {
                     String imageUrl = uploadResult.get("url").toString();
                     String imagePublicId = uploadResult.get("public_id").toString();
@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
     public Mono<Void> deleteByPublicId(UUID publicId) {
         return productRepository.findByPublicId(publicId)
                 .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND, "Product not found")))
-                .flatMap(product -> cloudinaryService.delete(product.getImagePublicId())
+                .flatMap(product -> cloudStorageService.delete(product.getImagePublicId())
                         .then(productRepository.deleteByPublicId(publicId)));
     }
 

@@ -1,7 +1,6 @@
-package com.ecom.e_backend.product.application;
+package com.ecom.e_backend.product.infrastructure.cloudinary;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.ecom.e_backend.product.domain.service.CloudinaryService;
+import com.ecom.e_backend.product.domain.service.CloudStorageService;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class CloudinaryServiceImpl implements CloudinaryService {
+public class CloudinaryServiceImpl implements CloudStorageService {
 
     private Cloudinary cloudinary;
 
@@ -40,7 +39,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
     }
 
     @Override
-    public Mono<Map> save(FilePart filePart) throws IOException {
+    public Mono<Map> save(FilePart filePart) {
         return Mono.fromCallable(() -> {
             File tempFile = File.createTempFile("upload-", filePart.filename());
             return tempFile;
