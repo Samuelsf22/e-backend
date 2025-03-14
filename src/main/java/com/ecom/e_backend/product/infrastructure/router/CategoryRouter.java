@@ -18,7 +18,9 @@ public class CategoryRouter {
         return RouterFunctions.route()
                 .POST(PATH, handler::save)
 
-                .GET(PATH, handler::findAll)
+                .GET(PATH, request -> request.queryParam("public_id")
+                        .map(id -> handler.findByPublicId(request))
+                        .orElseGet(() -> handler.findAll(request)))
 
                 .DELETE(PATH, request -> request.queryParam("public_id")
                         .map(id -> handler.delete(request))

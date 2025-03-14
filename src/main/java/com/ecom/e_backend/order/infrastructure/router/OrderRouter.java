@@ -22,11 +22,15 @@ public class OrderRouter {
                         .map(id -> handler.getOrderDetails(request))
                         .orElse(ServerResponse.badRequest().bodyValue("Order public id is required")))
 
-                .GET(PATH + "/user", request -> request.queryParam("user_public_id")
-                        .map(id -> handler.getOrdersByUserPublicId(request))
+                .GET(PATH + "/user", request -> request.queryParam("username")
+                        .map(id -> handler.getOrderByUsername(request))
                         .orElse(ServerResponse.badRequest().bodyValue("User public id is required")))
 
                 .GET(PATH, handler::getAllOrders)
+
+                .PUT(PATH + "/payment", request -> request.queryParam("order_public_id")
+                        .map(id -> handler.markOrderAsPaid(request))
+                        .orElse(ServerResponse.badRequest().bodyValue("Order public id is required")))
 
                 .build();
     }

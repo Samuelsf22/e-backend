@@ -27,8 +27,8 @@ public record ProductResponseDto(
 
     int stock,
 
-    @JsonProperty("picture_url")
-    String pictureUrl
+    @JsonProperty("image_url")
+    String imageUrl
 
 ) {
 
@@ -42,7 +42,7 @@ public record ProductResponseDto(
             .price(product.getPrice())
             .featured(product.isFeatured())
             .stock(product.getStock())
-            .pictureUrl(product.getPictureUrl())
+            .imageUrl(product.getImageUrl())
             .build();
     }
     

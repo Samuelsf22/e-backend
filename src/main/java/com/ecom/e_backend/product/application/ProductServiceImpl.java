@@ -1,13 +1,17 @@
 package com.ecom.e_backend.product.application;
 
+import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
 
 import com.ecom.e_backend.exception.CustomException;
 import com.ecom.e_backend.product.domain.models.Product;
 import com.ecom.e_backend.product.domain.repository.ProductRepository;
+import com.ecom.e_backend.product.domain.service.CloudStorageService;
 import com.ecom.e_backend.product.domain.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,11 +25,22 @@ public class ProductServiceImpl implements ProductService {
     private static final long MIN_QUANTITY = 1;
 
     private final ProductRepository productRepository;
+    private final CloudStorageService cloudStorageService;
 
     @Override
-    public Mono<Product> save(Product product) {
-        product.setPublicId(UUID.randomUUID());
-        return productRepository.save(product);
+    public Mono<Product> save(Product product, FilePart file) throws IOException {
+        return cloudStorageService.save(file)
+                .flatMap(uploadResult -> {
+                    String imageUrl = uploadResult.get("url").toString();
+                    String imagePublicId = uploadResult.get("public_id").toString();
+
+                    product.setPublicId(UUID.randomUUID());
+                    product.setImageUrl(imageUrl);
+                    product.setImagePublicId(imagePublicId);
+                    product.setImageName(file.filename());
+
+                    return productRepository.save(product);
+                });
     }
 
     @Override
@@ -41,10 +56,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Mono<Void> deleteByPublicId(UUID publicId) {
-        return productRepository.existsByPublicId(publicId)
-                .flatMap(exists -> exists
-                        ? productRepository.deleteByPublicId(publicId)
-                        : Mono.error(new CustomException(HttpStatus.NOT_FOUND, "Product not found")));
+        return productRepository.findByPublicId(publicId)
+                .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND, "Product not found")))
+                .flatMap(product -> cloudStorageService.delete(product.getImagePublicId())
+                        .then(productRepository.deleteByPublicId(publicId)));
     }
 
     @Override
@@ -71,6 +86,12 @@ public class ProductServiceImpl implements ProductService {
                     }
                     return productRepository.updateQuantity(publicId, quantity);
                 });
+    }
+
+    @Override
+    public Flux<Product> findRelatedProducts(UUID publicId) {
+        return productRepository.findRelatedProducts(publicId)
+                .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND, "No related products found")));
     }
 
 }

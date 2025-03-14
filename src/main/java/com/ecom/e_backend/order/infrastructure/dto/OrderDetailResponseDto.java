@@ -18,10 +18,7 @@ public record OrderDetailResponseDto(
     Integer quantity,
 
     @JsonProperty("product_name")
-    String productName,
-
-    @JsonProperty("total_amount")
-    Double totalAmount
+    String productName
 
 ) {
 
@@ -31,7 +28,6 @@ public record OrderDetailResponseDto(
                 .price(orderedProduct.getPrice())
                 .quantity(orderedProduct.getQuantity())
                 .productName(orderedProduct.getProductName())
-                .totalAmount(orderedProduct.getPrice() * orderedProduct.getQuantity())
                 .build();
 
     }

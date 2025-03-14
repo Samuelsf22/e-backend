@@ -20,7 +20,9 @@ public class Product {
     private double price;
     private boolean featured;
     private int stock;
-    private String pictureUrl;
+    private String imagePublicId;
+    private String imageName;
+    private String imageUrl;
     private Long categoryId;
 
 }

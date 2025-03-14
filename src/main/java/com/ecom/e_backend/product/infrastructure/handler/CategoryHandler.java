@@ -39,6 +39,13 @@ public class CategoryHandler {
                 .body(categoryService.findAll().map(CategoryResponseDto::fromCategory), CategoryResponseDto.class);
     }
 
+    public Mono<ServerResponse> findByPublicId(ServerRequest request) {
+        UUID publicId = UUID.fromString(request.queryParam("public_id").get());
+        return ServerResponse.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(categoryService.findByPublicId(publicId).map(CategoryResponseDto::fromCategory), CategoryResponseDto.class);
+    }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     public Mono<ServerResponse> delete(ServerRequest request) {
         UUID publicId = UUID.fromString(request.queryParam("public_id").get());

@@ -8,7 +8,14 @@ spring:
         url: r2dbc:postgresql://localhost:5432/postgres
         username: postgres
         password: 123456
+    config:
+        import: optional:file:.env[.properties]
 
 jwt:
-    secret: secretsecretsecretsecretsecretsecretsecretse
-    expiration: 3600
+    secret: ${SECRET_KEY}
+    expiration: ${EXPIRATION_TIME}
+
+cloudinary:
+    cloudName: ${CLOUD_NAME}
+    apiKey: ${API_KEY}
+    apiSecret: ${API_SECRET}

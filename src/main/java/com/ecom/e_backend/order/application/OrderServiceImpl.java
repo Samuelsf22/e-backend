@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.ecom.e_backend.exception.CustomException;
+import com.ecom.e_backend.order.domain.OrderStatus;
 import com.ecom.e_backend.order.domain.models.Order;
 import com.ecom.e_backend.order.domain.models.OrderedProduct;
 import com.ecom.e_backend.order.domain.repository.OrderRepository;
@@ -54,8 +55,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Flux<OrderedProduct> updateStatusByPublicId(UUID publicId) {
-        throw new UnsupportedOperationException("Unimplemented method 'updateStatusByPublicId'");
+    public Mono<Void> updateStatusByPublicId(UUID publicId) {
+        return orderRepository.updateStatusByPublicId(OrderStatus.PAID, publicId);
     }
 
     @Override

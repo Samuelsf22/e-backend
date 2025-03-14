@@ -29,4 +29,9 @@ public interface R2dbcProductRepository extends R2dbcRepository<ProductEntity, L
 
     Mono<Boolean> existsByPublicId(UUID publicId);
 
+    @Query("SELECT p.* FROM api_product p " +
+            "WHERE p.category_id = (SELECT category_id FROM api_product WHERE public_id = :publicId) " +
+            "AND p.public_id != :publicId")
+    Flux<ProductEntity> findRelatedProducts(UUID publicId);
+
 }
